@@ -1,0 +1,194 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+
+    height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+
+}
+
+.container{
+
+    width:400px;
+
+}
+
+.card{
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:30px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+
+}
+
+h1{
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+    color:#1877f2;
+}
+
+h2{
+
+    margin-bottom:20px;
+
+    text-align:center;
+}
+
+input,
+textarea{
+
+    width:100%;
+
+    padding:12px;
+
+    margin:10px 0;
+
+    border-radius:8px;
+
+    border:1px solid #ccc;
+
+    font-size:15px;
+}
+
+textarea{
+
+    resize:none;
+
+    height:70px;
+}
+
+button{
+
+    width:100%;
+
+    padding:12px;
+
+    margin-top:10px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#1877f2;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:17px;
+
+    transition:.3s;
+}
+
+button:hover{
+
+    background:#125fc9;
+}
+
+.switchText{
+
+    text-align:center;
+
+    margin-top:18px;
+}
+
+.switchText span{
+
+    color:#1877f2;
+
+    cursor:pointer;
+
+    font-weight:bold;
+}
+
+.switchText span:hover{
+
+    text-decoration:underline;
+}
+
+#loginCard{
+
+    display:none;
+}
+.home-container{
+
+    width:700px;
+
+    margin:30px auto;
+
+}
+
+.navbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:white;
+
+    padding:20px;
+
+    margin-bottom:20px;
+
+    border-radius:10px;
+
+    box-shadow:0 0 10px rgba(0,0,0,.15);
+
+}
+
+.card p{
+
+    margin:10px 0;
+
+    line-height:1.5;
+}
+
+.card h3{
+
+    color:#1877f2;
+
+    margin-bottom:10px;
+}
+/* ===============================
+   Post Image
+================================ */
+
+.post-image{
+    width:100%;
+    max-height:500px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-top:10px;
+}
+
+/* ===============================
+   Post Video
+================================ */
+
+.post-video{
+    width:100%;
+    max-height:500px;
+    border-radius:10px;
+    margin-top:10px;
+}

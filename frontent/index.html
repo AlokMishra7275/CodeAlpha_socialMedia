@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Social Media</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Mini Social Media</h1>
+
+        <!-- Register Form -->
+        <div id="registerCard">
+
+            <h2>Create Account</h2>
+
+            <input type="text" id="regUsername" placeholder="Username">
+
+            <input type="email" id="regEmail" placeholder="Email">
+
+            <input type="password" id="regPassword" placeholder="Password">
+
+            <textarea id="regBio" placeholder="Write your bio"></textarea>
+
+            <button onclick="register()">Register</button>
+
+            <p class="switchText">
+                Already have an account?
+                <span onclick="showLogin()">Login</span>
+            </p>
+
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginCard">
+
+            <h2>Welcome Back</h2>
+
+            <input type="email" id="loginEmail" placeholder="Email">
+
+            <input type="password" id="loginPassword" placeholder="Password">
+
+            <button onclick="login()">Login</button>
+
+            <p class="switchText">
+                Don't have an account?
+                <span onclick="showRegister()">Register</span>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

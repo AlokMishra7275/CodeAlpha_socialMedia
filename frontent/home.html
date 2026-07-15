@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniSocial</title>
+    
+    <!-- Custom Style Sheet Mapping -->
+    <link rel="stylesheet" href="home.css">
+
+    <!-- Premium Google Typography Fonts Engine -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Vector Graphic Asset Delivery CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+
+    <!-- ===================== NAVBAR LAYER ===================== -->
+    <header class="navbar">
+
+    <div class="logo">
+        <i class="fa-brands fa-instagram"></i>
+        <span>MiniSocial</span>
+    </div>
+
+    <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Search">
+    </div>
+
+    <div class="nav-icons">
+
+        <div class="nav-item active" data-view="home">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </div>
+
+        <div class="nav-item" data-view="explore">
+            <i class="fa-solid fa-compass"></i>
+            <span>Explore</span>
+        </div>
+
+        <div class="nav-item" data-view="notifications">
+            <i class="fa-regular fa-heart"></i>
+            <span>Notifications</span>
+            <span id="notificationBadge" class="badge-pill">0</span>
+        </div>
+
+        <div class="nav-item" data-view="messages">
+            <i class="fa-regular fa-paper-plane"></i>
+            <span>Messages</span>
+        </div>
+
+        <div class="nav-item" data-view="create">
+            <i class="fa-solid fa-plus"></i>
+            <span>Create</span>
+        </div>
+
+    </div>
+
+    <div class="profile-area">
+
+        <img id="profileImage" class="profile-nav-avatar" onclick="openProfileModalFromCurrentUser()" style="cursor:pointer;">
+
+        <span id="username" class="profile-nav-name" onclick="openProfileModalFromCurrentUser()" style="cursor:pointer;"></span>
+
+        <button onclick="logout()">Logout</button>
+
+    </div>
+
+</header>
+
+    <!-- ===================== MAIN GRID PLATFORM INTERFACE ===================== -->
+    <div class="main-container">
+
+       
+<!-- ================= LEFT SIDEBAR ================= -->
+
+<aside class="left-sidebar">
+
+    <div class="sidebar-menu">
+
+        <div class="menu-item active" data-view="home">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </div>
+
+        <div class="menu-item" data-view="search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Search</span>
+        </div>
+
+        <div class="menu-item" data-view="explore">
+            <i class="fa-regular fa-compass"></i>
+            <span>Explore</span>
+        </div>
+
+        <div class="menu-item" data-view="notifications">
+            <i class="fa-regular fa-heart"></i>
+            <span>Notifications</span>
+        </div>
+
+        <div class="menu-item" data-view="messages">
+            <i class="fa-regular fa-paper-plane"></i>
+            <span>Messages</span>
+        </div>
+
+        <div class="menu-item" data-view="create">
+            <i class="fa-solid fa-plus"></i>
+            <span>Create</span>
+        </div>
+
+        <div class="menu-item" data-view="profile">
+            <img id="sidebarProfileImage" class="menu-avatar">
+            <span id="sidebarUsername"></span>
+        </div>
+
+        <div class="menu-item logout" data-view="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </div>
+
+    </div>
+
+</aside>
+        <!-- ================= TIMELINE INTERACTION FEED ================= -->
+        <main class="feed">
+            
+            <!-- Horizontal Dynamic Stories Strip Layer -->
+            <div id="storyStrip" class="story-strip"></div>
+
+            <div id="explorePanel" class="explore-panel" style="display:none;"></div>
+
+            <div id="storyViewer" class="story-viewer" style="display:none;">
+                <button class="story-close-btn" onclick="closeStoryViewer()">×</button>
+                <div class="story-viewer-body"></div>
+            </div>
+
+            <div id="storyUploadModal" class="story-upload-modal" style="display:none;">
+                <div class="story-upload-card">
+                    <div class="story-upload-header">
+                        <h3>Create story</h3>
+                        <button class="story-close-btn small" onclick="closeStoryUploadModal()">×</button>
+                    </div>
+                    <input id="storyUploadInput" type="file" accept="image/*,video/*">
+                    <div id="storyPreviewBox" class="story-preview-box">Choose a photo or video</div>
+                    <textarea id="storyCaptionInput" placeholder="Add a caption"></textarea>
+                    <div class="story-upload-actions">
+                        <button class="secondary" onclick="closeStoryUploadModal()">Cancel</button>
+                        <button onclick="submitStoryUpload()">Share story</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="notificationPanel" class="notification-panel" style="display:none;">
+                <div class="panel-header">Notifications</div>
+                <div id="notificationList"></div>
+            </div>
+
+            <div id="messagePanel" class="message-panel" style="display:none;">
+                <div class="panel-header">Messages</div>
+                <div id="conversationList"></div>
+            </div>
+
+            <!-- Client Create Post Card Mechanism -->
+            <div class="create-post">
+                <textarea id="postContent" placeholder="What's on your mind?"></textarea>
+                <div class="post-controls">
+                    <!-- Premium Native Upload Handler Node -->
+                    <input type="file" id="mediaFile" accept="image/*,video/*">
+                    <button onclick="createPost()">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Share Post
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dynamic DOM Node Target for Javascript Insertion -->
+            <div id="postsContainer"></div>
+        </main>
+
+        <!-- ================= RIGHT SIDEBAR DATA COMPONENT ================= -->
+     <aside class="right-sidebar">
+
+    <div class="card">
+
+        <h3>Suggested For You</h3>
+
+        <div id="suggestedUsers"></div>
+
+    </div>
+
+</aside>
+
+    </div>
+
+    <div id="profileOverlay" class="profile-overlay" style="display:none;">
+        <div class="profile-overlay-card">
+            <button class="profile-close-btn" onclick="closeProfileView()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="profile-overlay-header">
+                <img id="profileOverlayAvatar" class="profile-overlay-avatar" alt="Profile avatar">
+                <div class="profile-meta">
+                    <div class="profile-title-row">
+                        <h2 id="profileOverlayName">User Name</h2>
+                        <span id="profileVerifiedBadge" class="verified-badge" style="display:none;">✓</span>
+                    </div>
+                    <p id="profileOverlayBio">User bio</p>
+                    <p id="profileOverlayWebsite" class="profile-website"></p>
+                </div>
+            </div>
+
+            <div class="profile-overlay-stats">
+                <div><strong id="profilePostCount">0</strong><span>Posts</span></div>
+                <div><strong id="profileFollowerCount">0</strong><span>Followers</span></div>
+                <div><strong id="profileFollowingCount">0</strong><span>Following</span></div>
+            </div>
+
+            <div class="profile-overlay-actions">
+                <button id="profileFollowBtn" class="profile-edit-btn" onclick="toggleFollow()">Follow</button>
+                <button id="profileMessageBtn" class="profile-edit-btn secondary" onclick="showToast('Messaging is coming soon')">Message</button>
+                <button id="profileEditBtn" class="profile-edit-btn" onclick="openEditProfileModal()">Edit Profile</button>
+            </div>
+
+            <div id="profileCompleteCard" class="profile-complete-card"></div>
+
+            <div id="profileEditForm" class="profile-edit-form" style="display:none;">
+                <input id="profileEditName" type="text" placeholder="Display name">
+                <input id="profileEditImage" type="text" placeholder="Profile picture URL">
+                <input id="profileEditWebsite" type="text" placeholder="Website URL">
+                <textarea id="profileEditBio" placeholder="Short bio"></textarea>
+                <div class="profile-form-actions">
+                    <button onclick="saveProfileChanges()">Save</button>
+                    <button class="secondary" onclick="cancelProfileEdit()">Cancel</button>
+                </div>
+            </div>
+
+            <div class="profile-tabs">
+                <button class="profile-tab active" data-tab="posts" onclick="setProfileTab('posts')">Posts</button>
+                <button class="profile-tab" data-tab="reels" onclick="setProfileTab('reels')">Reels</button>
+                <button class="profile-tab" data-tab="tagged" onclick="setProfileTab('tagged')">Tagged</button>
+                <button class="profile-tab" data-tab="saved" onclick="setProfileTab('saved')">Saved</button>
+            </div>
+
+            <div id="profileGallery" class="profile-gallery"></div>
+        </div>
+    </div>
+
+    <div id="profileEditModal" class="profile-edit-modal" style="display:none;">
+        <div class="profile-edit-modal-card">
+            <div class="profile-edit-modal-header">
+                <h3>Edit Profile</h3>
+                <button class="profile-close-btn" onclick="closeEditProfileModal()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="profile-edit-modal-body">
+                <label>Profile Image</label>
+                <input id="editProfileImage" type="file" accept="image/*">
+                <label>Username</label>
+                <input id="editUsername" type="text">
+                <label>Full Name</label>
+                <input id="editFullName" type="text">
+                <label>Bio</label>
+                <textarea id="editBio"></textarea>
+                <label>Website</label>
+                <input id="editWebsite" type="text">
+                <label>Location</label>
+                <input id="editLocation" type="text">
+                <div class="profile-edit-modal-actions">
+                    <button class="secondary" onclick="closeEditProfileModal()">Cancel</button>
+                    <button onclick="saveProfileChanges()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="suggestedUsersModal" class="profile-overlay" style="display:none;">
+        <div class="profile-overlay-card suggested-modal-card">
+            <button class="profile-close-btn" onclick="closeSuggestedModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="suggested-modal-header">
+                <h2>Suggested Users</h2>
+                <input id="suggestedSearch" type="text" placeholder="Search users">
+            </div>
+            <div class="suggested-sort-row">
+                <button class="suggested-sort-btn active" data-sort="newest" onclick="setSuggestedSort('newest')">Newest</button>
+                <button class="suggested-sort-btn" data-sort="popular" onclick="setSuggestedSort('popular')">Popular</button>
+                <button class="suggested-sort-btn" data-sort="random" onclick="setSuggestedSort('random')">Random</button>
+            </div>
+            <div id="suggestedUsersList" class="suggested-list-modal"></div>
+        </div>
+    </div>
+
+    <div id="searchModal" class="profile-overlay" style="display:none;">
+        <div class="profile-overlay-card search-modal-card">
+            <button class="profile-close-btn" onclick="closeSearchModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="suggested-modal-header">
+                <h2>Search</h2>
+                <input id="searchModalInput" type="text" placeholder="Search people and posts" oninput="if (typeof window.performSearch === 'function') window.performSearch(this.value)">
+            </div>
+            <div id="searchResults" class="search-results-list"></div>
+        </div>
+    </div>
+
+    <div id="createModal" class="profile-overlay" style="display:none;">
+        <div class="profile-overlay-card create-modal-card">
+            <div class="profile-edit-modal-header">
+                <h3>Create</h3>
+                <button class="profile-close-btn" onclick="closeCreateModal()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="create-modal-body">
+                <button class="create-option-button" onclick="focusCreatePost()">Create post</button>
+                <button class="create-option-button secondary" onclick="openStoryUploadModal()">Create story</button>
+                <button class="create-option-button secondary" onclick="showToast('Video uploads are coming soon', 'info')">Upload video</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Core Runtime Execution Target File Mapping Link -->
+    <script src="home.js"></script>
+    <script src="user.js"></script>
+    <script src="post.js"></script>
+    <script src="comment.js"></script>
+    <script src="story.js"></script>
+    <script src="notification.js"></script>
+    <script src="message.js"></script>
+</body>
+</html>
