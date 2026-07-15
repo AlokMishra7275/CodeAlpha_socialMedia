@@ -350,13 +350,13 @@
                 formData.append("profilePicture", imageInput.files[0]);
                 Object.entries(payload).forEach(([key, value]) => formData.append(key, value));
 
-                response = await fetch(`${window.BASE_URL || (window.location.origin.includes("5503") ? window.location.origin : (window.location.origin.replace(/:\d+$/, "") + ":5503"))}/api/users/${currentUser._id}`, {
+                response = await fetch(`https://codealpha-socialmedia-yeec.onrender.com/api/users/${currentUser._id}`, {
                     method: "PUT",
                     body: formData
                 });
                 data = await response.json();
             } else {
-                response = await fetch(`${window.BASE_URL || (window.location.origin.includes("5503") ? window.location.origin : (window.location.origin.replace(/:\d+$/, "") + ":5503"))}/api/users/${currentUser._id}`, {
+               response = await fetch(`https://codealpha-socialmedia-yeec.onrender.com/api/users/${currentUser._id}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ ...payload, profilePicture: currentUser.profilePicture || "" })
@@ -395,52 +395,82 @@
         }
     }
 
-    async function handleSuggestedFollowToggle(userId) {
-        const currentUser = getCurrentUser();
-        if (!currentUser) return;
+   async function handleSuggestedFollowToggle(userId) {
+    const currentUser = getCurrentUser();
+    if (!currentUser) return;
 
-        const targetId = String(userId || "");
-        const currentUserId = String(currentUser._id || "");
-        if (!targetId || targetId === currentUserId) {
-            showToast("You cannot follow yourself", "error");
-            return;
-        }
+    const targetId = String(userId || "");
+    const currentUserId = String(currentUser._id || "");
 
-        const alreadyFollowing = (currentUser.following || []).map(String).includes(targetId);
-        const endpoint = alreadyFollowing ? `/api/users/unfollow/${targetId}` : `/api/users/follow/${targetId}`;
-
-        try {
-            const response = await fetch(`${window.BASE_URL || (window.location.origin.includes("5503") ? window.location.origin : (window.location.origin.replace(/:\d+$/, "") + ":5503"))}${endpoint}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ userId: currentUserId })
-            });
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || "Unable to update follow state");
-            }
-
-            const updatedFollowing = new Set((currentUser.following || []).map(String));
-            if (alreadyFollowing) {
-                updatedFollowing.delete(targetId);
-                currentUser.followingCount = Math.max(0, Number(currentUser.followingCount || 0) - 1);
-            } else {
-                updatedFollowing.add(targetId);
-                currentUser.followingCount = Number(currentUser.followingCount || 0) + 1;
-            }
-
-            currentUser.following = Array.from(updatedFollowing);
-            localStorage.setItem("user", JSON.stringify(currentUser));
-            window.appState.currentUser = currentUser;
-            renderProfile();
-            renderSuggestedAccounts();
-            showToast(alreadyFollowing ? "Unfollowed successfully" : "Followed successfully", "success");
-        } catch (error) {
-            console.error(error);
-            showToast(error.message || "Follow action failed", "error");
-        }
+    if (!targetId || targetId === currentUserId) {
+        showToast("You cannot follow yourself", "error");
+        return;
     }
+
+    const alreadyFollowing = (currentUser.following || [])
+        .map(String)
+        .includes(targetId);
+
+    const endpoint = alreadyFollowing
+        ? `/api/users/unfollow/${targetId}`
+        : `/api/users/follow/${targetId}`;
+
+    try {
+        const response = await fetch(`${window.BASE_URL}${endpoint}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                userId: currentUserId
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || "Unable to update follow state");
+        }
+
+        const updatedFollowing = new Set(
+            (currentUser.following || []).map(String)
+        );
+
+        if (alreadyFollowing) {
+            updatedFollowing.delete(targetId);
+            currentUser.followingCount = Math.max(
+                0,
+                Number(currentUser.followingCount || 0) - 1
+            );
+        } else {
+            updatedFollowing.add(targetId);
+            currentUser.followingCount =
+                Number(currentUser.followingCount || 0) + 1;
+        }
+
+        currentUser.following = [...updatedFollowing];
+
+        localStorage.setItem("user", JSON.stringify(currentUser));
+        window.appState.currentUser = currentUser;
+
+        renderProfile();
+        renderSuggestedAccounts();
+
+        if (typeof renderSuggestedModal === "function") {
+            renderSuggestedModal();
+        }
+
+        showToast(
+            alreadyFollowing
+                ? "Unfollowed successfully"
+                : "Followed successfully",
+            "success"
+        );
+    } catch (error) {
+        console.error(error);
+        showToast(error.message || "Follow action failed", "error");
+    }
+}
 
     async function handleFollowToggle() {
         const currentUser = getCurrentUser();
@@ -460,7 +490,7 @@
         const endpoint = isFollowing ? `/api/users/unfollow/${targetId}` : `/api/users/follow/${targetId}`;
 
         try {
-            const response = await fetch(`${window.BASE_URL || (window.location.origin.includes("5503") ? window.location.origin : (window.location.origin.replace(/:\d+$/, "") + ":5503"))}${endpoint}`, {
+           const response = await fetch(`https://codealpha-socialmedia-yeec.onrender.com${endpoint}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ userId: currentUserId })
@@ -494,7 +524,7 @@
 
     async function loadUsers() {
         try {
-            const response = await fetch(`${window.BASE_URL || (window.location.origin.includes("5503") ? window.location.origin : (window.location.origin.replace(/:\d+$/, "") + ":5503"))}/api/users`);
+           const response = await fetch("https://codealpha-socialmedia-yeec.onrender.com/api/users");
             const users = await response.json();
             const currentUser = getCurrentUser();
             if (!currentUser) return;

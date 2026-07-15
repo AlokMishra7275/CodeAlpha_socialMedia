@@ -1,5 +1,5 @@
 (function () {
-    const BASE_URL = window.BASE_URL || (window.location.origin.includes("5503") ? window.location.origin : (window.location.origin.replace(/:\d+$/, "") + ":5503"));
+    const BASE_URL = "https://codealpha-socialmedia-yeec.onrender.com";
     let storyQueue = [];
     let storyIndex = 0;
     let playerTimer = null;

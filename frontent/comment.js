@@ -1,5 +1,5 @@
 (function () {
-    const BASE_URL = window.BASE_URL || (window.location.origin.includes("5503") ? window.location.origin : (window.location.origin.replace(/:\d+$/, "") + ":5503"));
+    const BASE_URL = "https://codealpha-socialmedia-yeec.onrender.com";
 
     async function loadComments(postId) {
         const container = document.getElementById(`comments-${postId}`);
